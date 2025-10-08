@@ -1,0 +1,737 @@
++*In[3]:*+
+[source, ipython3]
+----
+#Import Libraries
+import pandas as pd
+import numpy as np
+import os
+----
+
+
++*In[47]:*+
+[source, ipython3]
+----
+#import data customer
+----
+
+
++*In[7]:*+
+[source, ipython3]
+----
+path='/Users/Pc-Neumann/Desktop/Instacart Basket Analysis/02 Data/Original Data/customers.csv'
+----
+
+
++*In[8]:*+
+[source, ipython3]
+----
+df=pd.read_csv(os.path.join(path))
+----
+
+
++*In[9]:*+
+[source, ipython3]
+----
+df.head()
+----
+
+
++*Out[9]:*+
+----
+[cols=",,,,,,,,,,",options="header",]
+|===
+| |user_id |First Name |Surnam |Gender |STATE |Age |date_joined
+|n_dependants |fam_status |income
+|0 |26711 |Deborah |Esquivel |Female |Missouri |48 |1/1/2017 |3 |married
+|165665
+
+|1 |33890 |Patricia |Hart |Female |New Mexico |36 |1/1/2017 |0 |single
+|59285
+
+|2 |65803 |Kenneth |Farley |Male |Idaho |35 |1/1/2017 |2 |married |99568
+
+|3 |125935 |Michelle |Hicks |Female |Iowa |40 |1/1/2017 |0 |single
+|42049
+
+|4 |130797 |Ann |Gilmore |Female |Maryland |26 |1/1/2017 |1 |married
+|40374
+|===
+----
+
+
++*In[10]:*+
+[source, ipython3]
+----
+df.tail()
+----
+
+
++*Out[10]:*+
+----
+[cols=",,,,,,,,,,",options="header",]
+|===
+| |user_id |First Name |Surnam |Gender |STATE |Age |date_joined
+|n_dependants |fam_status |income
+|206204 |168073 |Lisa |Case |Female |North Carolina |44 |4/1/2020 |1
+|married |148828
+
+|206205 |49635 |Jeremy |Robbins |Male |Hawaii |62 |4/1/2020 |3 |married
+|168639
+
+|206206 |135902 |Doris |Richmond |Female |Missouri |66 |4/1/2020 |2
+|married |53374
+
+|206207 |81095 |Rose |Rollins |Female |California |27 |4/1/2020 |1
+|married |99799
+
+|206208 |80148 |Cynthia |Noble |Female |New York |55 |4/1/2020 |1
+|married |57095
+|===
+----
+
+
++*In[11]:*+
+[source, ipython3]
+----
+df.shape
+----
+
+
++*Out[11]:*+
+----(206209, 10)----
+
+
++*In[12]:*+
+[source, ipython3]
+----
+df.describe()
+----
+
+
++*Out[12]:*+
+----
+[cols=",,,,",options="header",]
+|===
+| |user_id |Age |n_dependants |income
+|count |206209.000000 |206209.000000 |206209.000000 |206209.000000
+|mean |103105.000000 |49.501646 |1.499823 |94632.852548
+|std |59527.555167 |18.480962 |1.118433 |42473.786988
+|min |1.000000 |18.000000 |0.000000 |25903.000000
+|25% |51553.000000 |33.000000 |0.000000 |59874.000000
+|50% |103105.000000 |49.000000 |1.000000 |93547.000000
+|75% |154657.000000 |66.000000 |3.000000 |124244.000000
+|max |206209.000000 |81.000000 |3.000000 |593901.000000
+|===
+----
+
+
++*In[13]:*+
+[source, ipython3]
+----
+path='/Users/Pc-Neumann/Desktop/Instacart Basket Analysis/02 Data/Prepared Data/df_merged_large.pkl'
+----
+
+
++*In[14]:*+
+[source, ipython3]
+----
+df_1=pd.read_pickle(os.path.join(path))
+----
+
+
++*In[15]:*+
+[source, ipython3]
+----
+df_1.shape
+----
+
+
++*Out[15]:*+
+----(32434489, 11)----
+
+
++*In[12]:*+
+[source, ipython3]
+----
+#checking for duplicates
+----
+
+
++*In[16]:*+
+[source, ipython3]
+----
+df.duplicated()
+----
+
+
++*Out[16]:*+
+----0         False
+1         False
+2         False
+3         False
+4         False
+          ...  
+206204    False
+206205    False
+206206    False
+206207    False
+206208    False
+Length: 206209, dtype: bool----
+
+
++*In[17]:*+
+[source, ipython3]
+----
+#renaming column
+----
+
+
++*In[18]:*+
+[source, ipython3]
+----
+df.rename(columns = {'n_dependants' : 'children'}, inplace = True)
+----
+
+
++*In[19]:*+
+[source, ipython3]
+----
+df.head()
+----
+
+
++*Out[19]:*+
+----
+[cols=",,,,,,,,,,",options="header",]
+|===
+| |user_id |First Name |Surnam |Gender |STATE |Age |date_joined
+|children |fam_status |income
+|0 |26711 |Deborah |Esquivel |Female |Missouri |48 |1/1/2017 |3 |married
+|165665
+
+|1 |33890 |Patricia |Hart |Female |New Mexico |36 |1/1/2017 |0 |single
+|59285
+
+|2 |65803 |Kenneth |Farley |Male |Idaho |35 |1/1/2017 |2 |married |99568
+
+|3 |125935 |Michelle |Hicks |Female |Iowa |40 |1/1/2017 |0 |single
+|42049
+
+|4 |130797 |Ann |Gilmore |Female |Maryland |26 |1/1/2017 |1 |married
+|40374
+|===
+----
+
+
++*In[20]:*+
+[source, ipython3]
+----
+#made the decision to drop the name columns(for analysis not neccessary and personal/confident data anyways)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[21]:*+
+[source, ipython3]
+----
+df.drop(columns = ['First Name','Surnam'])
+----
+
+
++*Out[21]:*+
+----
+[cols=",,,,,,,,",options="header",]
+|===
+| |user_id |Gender |STATE |Age |date_joined |children |fam_status
+|income
+|0 |26711 |Female |Missouri |48 |1/1/2017 |3 |married |165665
+
+|1 |33890 |Female |New Mexico |36 |1/1/2017 |0 |single |59285
+
+|2 |65803 |Male |Idaho |35 |1/1/2017 |2 |married |99568
+
+|3 |125935 |Female |Iowa |40 |1/1/2017 |0 |single |42049
+
+|4 |130797 |Female |Maryland |26 |1/1/2017 |1 |married |40374
+
+|... |... |... |... |... |... |... |... |...
+
+|206204 |168073 |Female |North Carolina |44 |4/1/2020 |1 |married
+|148828
+
+|206205 |49635 |Male |Hawaii |62 |4/1/2020 |3 |married |168639
+
+|206206 |135902 |Female |Missouri |66 |4/1/2020 |2 |married |53374
+
+|206207 |81095 |Female |California |27 |4/1/2020 |1 |married |99799
+
+|206208 |80148 |Female |New York |55 |4/1/2020 |1 |married |57095
+|===
+
+206209 rows × 8 columns
+----
+
+
++*In[22]:*+
+[source, ipython3]
+----
+df_cust=df.drop(columns = ['First Name','Surnam'])
+----
+
+
++*In[23]:*+
+[source, ipython3]
+----
+#checking the key columns for later use
+----
+
+
++*In[24]:*+
+[source, ipython3]
+----
+df['user_id'].value_counts(dropna=False)
+----
+
+
++*Out[24]:*+
+----user_id
+26711     1
+67322     1
+173044    1
+61044     1
+98344     1
+         ..
+146847    1
+154991    1
+172193    1
+184326    1
+80148     1
+Name: count, Length: 206209, dtype: int64----
+
+
++*In[25]:*+
+[source, ipython3]
+----
+df_1['user_id'].value_counts(dropna=False)
+----
+
+
++*Out[25]:*+
+----user_id
+201268    3725
+129928    3638
+164055    3061
+186704    2936
+176478    2921
+          ... 
+178594       3
+201027       3
+106736       3
+119944       3
+63995        3
+Name: count, Length: 206209, dtype: int64----
+
+
++*In[26]:*+
+[source, ipython3]
+----
+df_cust.T
+----
+
+
++*Out[26]:*+
+----
+[cols=",,,,,,,,,,,,,,,,,,,,,",options="header",]
+|===
+| |0 |1 |2 |3 |4 |5 |6 |7 |8 |9 |... |206199 |206200 |206201 |206202
+|206203 |206204 |206205 |206206 |206207 |206208
+|user_id |26711 |33890 |65803 |125935 |130797 |133128 |152052 |168851
+|69965 |82820 |... |179673 |192637 |75529 |157533 |122741 |168073 |49635
+|135902 |81095 |80148
+
+|Gender |Female |Female |Male |Female |Female |Female |Male |Male |Male
+|Male |... |Male |Female |Female |Male |Male |Female |Male |Female
+|Female |Female
+
+|STATE |Missouri |New Mexico |Idaho |Iowa |Maryland |Kentucky |Montana
+|South Carolina |Texas |Virginia |... |Wyoming |Florida |West Virginia
+|Utah |Michigan |North Carolina |Hawaii |Missouri |California |New York
+
+|Age |48 |36 |35 |40 |26 |43 |20 |30 |47 |26 |... |77 |47 |25 |53 |24
+|44 |62 |66 |27 |55
+
+|date_joined |1/1/2017 |1/1/2017 |1/1/2017 |1/1/2017 |1/1/2017 |1/1/2017
+|1/1/2017 |1/1/2017 |1/1/2017 |1/1/2017 |... |4/1/2020 |4/1/2020
+|4/1/2020 |4/1/2020 |4/1/2020 |4/1/2020 |4/1/2020 |4/1/2020 |4/1/2020
+|4/1/2020
+
+|children |3 |0 |2 |0 |1 |2 |0 |0 |1 |2 |... |0 |0 |2 |0 |2 |1 |3 |2 |1
+|1
+
+|fam_status |married |single |married |single |married |married |single
+|single |married |married |... |divorced/widowed |single |married
+|single |married |married |married |married |married |married
+
+|income |165665 |59285 |99568 |42049 |40374 |49643 |61746 |63712 |162432
+|32072 |... |162239 |50638 |56513 |35973 |73357 |148828 |168639 |53374
+|99799 |57095
+|===
+
+8 rows × 206209 columns
+----
+
+
++*In[27]:*+
+[source, ipython3]
+----
+data_dict = df_cust.to_dict('index')
+----
+
+
++*In[28]:*+
+[source, ipython3]
+----
+#checking for missing values
+----
+
+
++*In[29]:*+
+[source, ipython3]
+----
+df_cust.isnull().sum()
+----
+
+
++*Out[29]:*+
+----user_id        0
+Gender         0
+STATE          0
+Age            0
+date_joined    0
+children       0
+fam_status     0
+income         0
+dtype: int64----
+
+
++*In[30]:*+
+[source, ipython3]
+----
+#checking all columns
+----
+
+
++*In[31]:*+
+[source, ipython3]
+----
+df_cust['Gender'].value_counts(dropna=False)
+----
+
+
++*Out[31]:*+
+----Gender
+Male      104067
+Female    102142
+Name: count, dtype: int64----
+
+
++*In[32]:*+
+[source, ipython3]
+----
+df_cust['STATE'].value_counts(dropna=False)
+----
+
+
++*Out[32]:*+
+----STATE
+Florida                 4044
+Colorado                4044
+Illinois                4044
+Alabama                 4044
+District of Columbia    4044
+Hawaii                  4044
+Arizona                 4044
+Connecticut             4044
+California              4044
+Indiana                 4044
+Arkansas                4044
+Alaska                  4044
+Delaware                4044
+Iowa                    4044
+Idaho                   4044
+Georgia                 4044
+Wyoming                 4043
+Mississippi             4043
+Oklahoma                4043
+Utah                    4043
+New Hampshire           4043
+Kentucky                4043
+Maryland                4043
+Rhode Island            4043
+Massachusetts           4043
+Michigan                4043
+New Jersey              4043
+Kansas                  4043
+South Dakota            4043
+Minnesota               4043
+Tennessee               4043
+New York                4043
+Washington              4043
+Louisiana               4043
+Montana                 4043
+North Dakota            4043
+Wisconsin               4043
+Nebraska                4043
+Vermont                 4043
+Nevada                  4043
+Maine                   4043
+North Carolina          4043
+West Virginia           4043
+Virginia                4043
+Oregon                  4043
+New Mexico              4043
+Texas                   4043
+Pennsylvania            4043
+Ohio                    4043
+South Carolina          4043
+Missouri                4043
+Name: count, dtype: int64----
+
+
++*In[33]:*+
+[source, ipython3]
+----
+df_cust['Age'].value_counts(dropna=False)
+----
+
+
++*Out[33]:*+
+----Age
+19    3329
+55    3317
+51    3317
+56    3306
+32    3305
+      ... 
+65    3145
+25    3127
+66    3114
+50    3102
+36    3101
+Name: count, Length: 64, dtype: int64----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[34]:*+
+[source, ipython3]
+----
+df_cust['date_joined'].value_counts(dropna=False)
+----
+
+
++*Out[34]:*+
+----date_joined
+9/17/2018     213
+2/10/2018     212
+4/1/2019      211
+9/21/2019     211
+12/19/2017    210
+             ... 
+9/1/2018      141
+1/22/2018     140
+11/24/2017    139
+7/18/2019     138
+8/6/2018      128
+Name: count, Length: 1187, dtype: int64----
+
+
++*In[35]:*+
+[source, ipython3]
+----
+df_cust['children'].value_counts(dropna=False)
+----
+
+
++*Out[35]:*+
+----children
+0    51602
+3    51594
+1    51531
+2    51482
+Name: count, dtype: int64----
+
+
++*In[36]:*+
+[source, ipython3]
+----
+df_cust['fam_status'].value_counts(dropna=False)
+----
+
+
++*Out[36]:*+
+----fam_status
+married                             144906
+single                               33962
+divorced/widowed                     17640
+living with parents and siblings      9701
+Name: count, dtype: int64----
+
+
++*In[37]:*+
+[source, ipython3]
+----
+df_cust['income'].value_counts(dropna=False)
+----
+
+
++*Out[37]:*+
+----income
+57192     10
+95891     10
+95710     10
+97532      9
+98675      9
+          ..
+73141      1
+71524      1
+74408      1
+44780      1
+148828     1
+Name: count, Length: 108012, dtype: int64----
+
+
++*In[38]:*+
+[source, ipython3]
+----
+#looking for mixed data
+----
+
+
++*In[39]:*+
+[source, ipython3]
+----
+for col in df_cust.columns.tolist():
+  weird = (df_cust[[col]].map(type) != df_cust[[col]].iloc[0].apply(type)).any(axis = 1)
+  if len (df_cust[weird]) > 0:
+    print (col)
+----
+
+
++*In[40]:*+
+[source, ipython3]
+----
+path='/Users/Pc-Neumann/Desktop/Instacart Basket Analysis/02 Data/Prepared Data/df_prods_ords_frequencies.pkl'
+----
+
+
++*In[41]:*+
+[source, ipython3]
+----
+df_ords_prods=pd.read_pickle(os.path.join(path))
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+df_merged = df_ords_prods.merge(df_cust, on = 'user_id')
+----
+
+
++*In[40]:*+
+[source, ipython3]
+----
+print("Columns in df_ords_prods:", df_ords_prods.columns.tolist())
+
+----
+
+
++*Out[40]:*+
+----
+Columns in df_ords_prods: ['Unnamed: 0_x', 'order_id', 'user_id', 'order_number', 'orders_day_of_week', 'order_time', 'days_since_prior_order', 'product_id', 'add_to_cart_order', 'reordered', '_merge', 'Unnamed: 0_y', 'product_name', 'aisle_id', 'department_id', 'prices', 'merge_indicator', 'price_range', 'price_range_loc', 'busiest_day', 'busiest_days', 'order_time_loc', 'time_of_order', 'max_order', 'loyalty_flag']
+----
+
+
++*In[41]:*+
+[source, ipython3]
+----
+print("Columns in df_cust:", df_cust.columns.tolist())
+----
+
+
++*Out[41]:*+
+----
+Columns in df_cust: ['user_id', 'Gender', 'STATE', 'Age', 'date_joined', 'children', 'fam_status', 'income']
+----
+
+
++*In[42]:*+
+[source, ipython3]
+----
+df_merged.head()
+----
+
+
++*Out[42]:*+
+----
+[cols=",,,,,,,,,,,,,,,,,,,,,",options="header",]
+|===
+| |Unnamed: 0_x |order_id |user_id |order_number |orders_day_of_week
+|order_time |days_since_prior_order |product_id |add_to_cart_order
+|reordered |... |time_of_order |max_order |loyalty_flag |Gender |STATE
+|Age |date_joined |children |fam_status |income
+|0 |0 |2539329 |1 |1 |2 |8 |NaN |196 |1 |0 |... |Average Orders |10 |New
+customer |Female |Alabama |31 |2/17/2019 |3 |married |40423
+
+|1 |0 |2539329 |1 |1 |2 |8 |NaN |14084 |2 |0 |... |Average Orders |10
+|New customer |Female |Alabama |31 |2/17/2019 |3 |married |40423
+
+|2 |0 |2539329 |1 |1 |2 |8 |NaN |12427 |3 |0 |... |Average Orders |10
+|New customer |Female |Alabama |31 |2/17/2019 |3 |married |40423
+
+|3 |0 |2539329 |1 |1 |2 |8 |NaN |26088 |4 |0 |... |Average Orders |10
+|New customer |Female |Alabama |31 |2/17/2019 |3 |married |40423
+
+|4 |0 |2539329 |1 |1 |2 |8 |NaN |26405 |5 |0 |... |Average Orders |10
+|New customer |Female |Alabama |31 |2/17/2019 |3 |married |40423
+|===
+
+5 rows × 32 columns
+----
+
+
++*In[43]:*+
+[source, ipython3]
+----
+df_merged.shape
+----
+
+
++*Out[43]:*+
+----(32404859, 32)----
+
+
++*In[46]:*+
+[source, ipython3]
+----
+df_merged.to_pickle(os.path.join(path,'/Users/Pc-Neumann/Desktop/Instacart Basket Analysis/02 Data/Prepared Data/df_prods_ords_cust_merge.pkl'))
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
